@@ -1,0 +1,20 @@
+root = true
+
+[{*.vue, *.js}]
+charset = utf-8
+indent_style = space
+indent_size = 4
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+ij_javascript_imports_wrap = off
+ij_continuation_indent_size = 4
+ij_vue_indent_children_of_top_level = script, template, style
+
+[*.php]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+trim_trailing_whitespace = true
