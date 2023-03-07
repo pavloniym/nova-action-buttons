@@ -13,12 +13,37 @@ class ActionButtons extends Field
      */
     public $component = 'action-buttons';
 
+    
     /**
      * The text alignment for the field's text in tables.
      *
      * @var string
      */
     public $textAlign = 'center';
+
+
+    /**
+     * Indicates if the element should be shown on the update view.
+     *
+     * @var bool
+     */
+    public $showOnUpdate = false;
+
+
+    /**
+     * Indicates if the element should be shown on the detail view.
+     *
+     * @var bool
+     */
+    public $showOnDetail = false;
+
+
+    /**
+     * Indicates if the element should be shown on the creation view.
+     *
+     * @var bool
+     */
+    public $showOnCreation = false;
 
 
     /**

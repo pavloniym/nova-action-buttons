@@ -14,6 +14,29 @@ class ActionButton extends Field
      */
     public $component = 'action-button';
 
+    
+    /**
+     * Indicates if the element should be shown on the update view.
+     *
+     * @var bool
+     */
+    public $showOnUpdate = false;
+
+
+    /**
+     * Indicates if the element should be shown on the detail view.
+     *
+     * @var bool
+     */
+    public $showOnDetail = false;
+
+
+    /**
+     * Indicates if the element should be shown on the creation view.
+     *
+     * @var bool
+     */
+    public $showOnCreation = false;
 
     /**
      * @param Action $action
