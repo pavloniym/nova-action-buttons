@@ -14,7 +14,7 @@ class ActionButton extends Field
      */
     public $component = 'action-button';
 
-    
+
     /**
      * Indicates if the element should be shown on the update view.
      *
@@ -28,7 +28,7 @@ class ActionButton extends Field
      *
      * @var bool
      */
-    public $showOnDetail = false;
+    public $showOnDetail = true;
 
 
     /**
@@ -50,7 +50,6 @@ class ActionButton extends Field
             'resourceId' => $resourceId,
         ]);
     }
-
 
     /**
      * Text inside button.

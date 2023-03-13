@@ -13,7 +13,7 @@ class ActionButtons extends Field
      */
     public $component = 'action-buttons';
 
-    
+
     /**
      * The text alignment for the field's text in tables.
      *
@@ -35,7 +35,7 @@ class ActionButtons extends Field
      *
      * @var bool
      */
-    public $showOnDetail = false;
+    public $showOnDetail = true;
 
 
     /**

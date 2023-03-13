@@ -1,18 +1,24 @@
 <template>
-    <div>
-        <a href="#" :style="finalStyles" :class="finalClasses" :title="name" @click.stop.prevent="fireAction">
-            <span v-if="text" v-text="text"/>
-            <span v-if="icon" v-html="icon"/>
-        </a>
-        <component
-            v-if="confirmActionModalOpened"
-            v-bind="options"
-            class="text-left"
-            :is="selectedAction.component"
-            @close="closeConfirmationModal"
-            @confirm="executeAction">
-        </component>
-    </div>
+    <panel-item :field="field">
+        <template v-slot:value>
+            <a href="#" :style="finalStyles" :class="finalClasses" :title="name" @click.stop.prevent="fireAction">
+                <span v-if="text" v-text="text"/>
+                <span v-if="icon" v-html="icon"/>
+            </a>
+
+            <!-- Action Confirmation Modal -->
+            <portal to="modals" transition="fade-transition">
+                <component
+                    v-if="confirmActionModalOpened"
+                    v-bind="options"
+                    class="text-left"
+                    :is="selectedAction.component"
+                    @close="closeConfirmationModal"
+                    @confirm="executeAction">
+                </component>
+            </portal>
+        </template>
+    </panel-item>
 </template>
 
 <script setup>
