@@ -24,8 +24,6 @@
         resourceName: {type: String, default: null},
     });
 
-    console.log(props.field, props.queryString, props.resourceName);
-
     // Computed
     const collection = computed(() => props?.field?.collection || []);
     const actions = computed(() => (collection?.value || [])
