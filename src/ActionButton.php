@@ -24,14 +24,6 @@ class ActionButton extends Field
 
 
     /**
-     * Indicates if the element should be shown on the detail view.
-     *
-     * @var bool
-     */
-    public $showOnDetail = true;
-
-
-    /**
      * Indicates if the element should be shown on the creation view.
      *
      * @var bool

@@ -33,4 +33,5 @@
             queryString: props?.queryString,
             resourceName: props?.resourceName,
         })));
+
 </script>
