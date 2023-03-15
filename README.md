@@ -36,7 +36,7 @@ public function fields(Request $request)
       
         // ... Nova default fields
       
-      ActionButton::make('') // Name in resource table column
+        ActionButton::make('') // Name in resource table column
             ->icon('<svg></svg>') // Svg icon (optional)
             ->title('Refresh') // Title (optional)
             ->styles([]) // Custom css styles (optional)
@@ -63,11 +63,11 @@ public function fields(Request $request)
       
         // ... Nova default fields
       
-      ActionButtons::make()->collection([
-         ActionButton::make('')->action(),
-         ActionButton::make('')->action(),
-         ActionButton::make('')->action(),
-    ])
+        ActionButtons::make()->collection([
+            ActionButton::make('')->action(),
+            ActionButton::make('')->action(),
+            ActionButton::make('')->action(),
+        ])
       
         // ... Nova default fields
     ];
@@ -122,6 +122,29 @@ class RefreshAction extends Action
 }
 
 ```
+
+> This field is available on index and detail (Thanks to [@CosminBd](https://github.com/CosminBd)) views
+
+---
+To hide the action either on Index or Detail, you can add the methods in the action declaration as per:
+```php
+ActionButton::make('My action')
+    ->action((new RefreshAction)->onlyOnDetail(), $this->resource?->id)
+    ->icon('')
+    ->asToolbarButton(),
+```
+This is available for both action buttons and action button groups, and it works in individual actions which are part of the action group.
+
+---
+
+To run actions without confirmation, you can add the `$withoutConfirmation = true` property to the Laravel Nova action or provide it as a method when you declare the action button
+```php
+ActionButton::make('My action')
+    ->action((new RefreshAction)->withoutConfirmation(), $this->resource?->id)
+    ->icon('')
+    ->asToolbarButton(),
+```
+
 
 ## License
 
