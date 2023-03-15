@@ -74,6 +74,10 @@ public function fields(Request $request)
 }
 ```
 
+
+> This fields (both `ActionButton` and `ActionButtons`) are available on index and detail (Thanks to [@CosminBd](https://github.com/CosminBd)) views
+
+
 ## Caveats
 * Currently, in order to use this field, you still have to declare the action in your resource `actions()` method.
 * Tested only on `confirm-action-modal` action
@@ -122,8 +126,6 @@ class RefreshAction extends Action
 }
 
 ```
-
-> This field is available on index and detail (Thanks to [@CosminBd](https://github.com/CosminBd)) views
 
 ---
 To hide the action either on Index or Detail, you can add the methods in the action declaration as per:
