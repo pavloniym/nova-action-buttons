@@ -33,7 +33,7 @@
     // Computed
     const text = computed(() => props?.field?.text || null);
     const icon = computed(() => props?.field?.icon || null);
-    const name = computed(() => props?.field?.name || null);
+    const name = computed(() => props?.field?.name || props?.field?.title || null);
     const customStyles = computed(() => props?.field?.styles || []);
     const customClasses = computed(() => props?.field?.classes || []);
     const asToolbarButton = computed(() => props?.field?.asToolbarButton === true);
@@ -41,14 +41,38 @@
     const actionButtonClasses = computed(() => [
         'flex-shrink-0', 'shadow', 'rounded', 'focus:outline-none', 'ring-primary-200', 'dark:ring-gray-600',
         'focus:ring', 'bg-primary-500', 'hover:bg-primary-400', 'active:bg-primary-600',
-        'text-white', 'dark:text-gray-800', 'inline-flex', 'items-center', 'font-bold', 'px-2', 'h-9', 'text-sm', 'flex-shrink-0',
+        'text-white', 'dark:text-gray-800', 'inline-flex', 'items-center', 'font-bold', 'px-2', 'mx-1', 'h-9', 'text-sm', 'flex-shrink-0',
     ])
     const toolbarButtonClasses = computed(() => [
         'toolbar-button', 'hover:text-primary-500', 'px-2', 'v-popper--has-tooltip', 'w-10'
     ])
 
-    const finalStyles = computed(() => ({...(customStyles.value || {})}))
-    const finalClasses = computed(() => [...(asToolbarButton?.value === true ? toolbarButtonClasses.value : actionButtonClasses.value), ...(customClasses.value || [])])
+    // Computed
+    // Get action button styles
+    const actionButtonStyles = computed(() => {
+        return {
+            margin: '0 2px',
+        }
+    })
+
+
+    // Computed
+    // Get final styles
+    const finalStyles = computed(() => {
+        return {
+            ...(asToolbarButton?.value === true ? null : actionButtonStyles?.value),
+            ...(customStyles.value || {}),
+        }
+    })
+
+    // Computed
+    // Get final classes
+    const finalClasses = computed(() => {
+        return [
+            ...(asToolbarButton?.value === true ? toolbarButtonClasses.value : actionButtonClasses.value),
+            ...(customClasses.value || [])
+        ]
+    })
 
     const queryString = computed(() => ({
         action: selectedAction?.value?.uriKey,

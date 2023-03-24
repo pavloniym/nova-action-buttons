@@ -1,5 +1,5 @@
 <template>
-    <div class="flex items-center justify-center">
+    <div class="flex align-center" :class="alignClasses">
         <template v-for="(action, k) in actions" :key="k">
             <action-button v-bind="action"/>
         </template>
@@ -31,5 +31,15 @@
             resourceName: props?.resourceName,
         })))
 
+
+    // Computed
+    // Align classes
+    const alignClasses = computed(() => {
+        return {
+            'justify-end': props?.field?.textAlign === 'right',
+            'justify-start': props?.field?.textAlign === 'left',
+            'justify-center': props?.field?.textAlign === 'center',
+        }
+    })
 
 </script>
