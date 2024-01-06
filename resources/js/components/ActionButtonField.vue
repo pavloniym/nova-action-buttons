@@ -11,12 +11,12 @@
         >
             <span v-if="text" v-text="text"></span>
             <template v-if="icon">
-                <span v-if="isIconHtml" v-html="icon"></span>
+                <span v-if="isHtmlIcon" v-html="icon"></span>
                 <Icon v-else :type="icon" />
             </template>
         </a>
         <div
-            v-show="showTooltip && tooltip"
+            v-if="tooltipIsVisible && tooltip"
             class="absolute z-10 left-1/2 -top-1 transform -translate-x-1/2 -translate-y-full px-2 py-1 bg-gray-700 text-white text-xs rounded"
         >
             {{ tooltip }}
@@ -34,29 +34,29 @@
 
 <script setup>
 
-    // Vue
-    import {computed, ref} from 'vue'; // Composables
-    import {useHandleAction} from '../mixins/HandlesActions' // Props
+// Vue
+import {computed, ref} from 'vue'; // Composables
+import {useHandleAction} from '../mixins/HandlesActions' // Props
 
-    // Props
+// Props
     const props = defineProps({
         field: {type: Object, default: null},
         queryString: {type: Object, default: null},
         resourceName: {type: String, default: null},
     });
 
-    const showTooltip = ref(false);
+    const tooltipIsVisible = ref(false);
 
     // Computed
     const text = computed(() => props?.field?.text || null);
     const icon = computed(() => props?.field?.icon || null);
-    const hasTooltip = computed(() => props?.field?.hasTooltip || false);
+    const hasTooltip = computed(() => props?.field?.hasTooltip === true);
     const tooltip = computed(() => props?.field?.tooltip || props?.field?.action?.name);
     const name = computed(() => props?.field?.name || props?.field?.title || null);
     const customStyles = computed(() => props?.field?.styles || []);
     const customClasses = computed(() => props?.field?.classes || []);
     const asToolbarButton = computed(() => props?.field?.asToolbarButton === true);
-    const isIconHtml = computed(() => icon.value && /<\/?[a-z][\s\S]*>/i.test(icon?.value));
+    const isHtmlIcon = computed(() => icon.value && /<\/?[a-z][\s\S]*>/i.test(icon?.value));
 
     const actionButtonClasses = computed(() => [
         'flex-shrink-0', 'shadow', 'rounded', 'focus:outline-none', 'ring-primary-200', 'dark:ring-gray-600',
@@ -136,15 +136,15 @@
     }))
 
     const onMouseLeaveTooltip = () => {
-        showTooltip.value = false;
+        tooltipIsVisible.value = false;
     }
 
     const onMouseEnterTooltip = () => {
-        if (hasTooltip.value) showTooltip.value = true;
+        if (hasTooltip.value) tooltipIsVisible.value = true;
     }
 
 </script>
-<style>
+<style scoped>
 
     .tooltip {
         @apply invisible absolute;
