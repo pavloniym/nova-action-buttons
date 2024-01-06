@@ -144,7 +144,7 @@ import {useHandleAction} from '../mixins/HandlesActions' // Props
     }
 
 </script>
-<style scoped>
+<style>
 
     .tooltip {
         @apply invisible absolute;
