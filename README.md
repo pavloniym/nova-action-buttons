@@ -37,8 +37,9 @@ public function fields(Request $request)
         // ... Nova default fields
       
         ActionButton::make('') // Name in resource table column
-            ->icon('<svg></svg>') // Svg icon (optional)
-            ->title('Refresh') // Title (optional)
+            ->icon('<svg></svg>') // Svg icon or heroicon name (optional) ->icon('lightning-bolt')
+            ->text('Refresh') // Title (optional)
+            ->tooltip('Magic tooltip here') // Tooltip text (optional). If not provided, it will default to the action name.
             ->styles([]) // Custom css styles (optional)
             ->classes([]) // Custom css classes (optional)
             ->action(new RefreshAction, $this->resource->id) // Provide action instance and resource id
