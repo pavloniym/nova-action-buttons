@@ -83,6 +83,7 @@ export const useHandleAction = ({queryString, resourceName, selectedAction, sele
 
                 working.value = false
                 Nova.$progress.done()
+                window.location = window.location.href
             })
             .catch(error => {
 
