@@ -11,6 +11,7 @@ export const useHandleAction = ({queryString, resourceName, selectedAction, sele
     const errors = ref(new Errors());
     const working = ref(false);
     const confirmActionModalOpened = ref(false);
+    const reloadOnModalClose = ref(false);
 
     const __ = (key) => Nova?.appConfig?.translations?.[key] || key;
 
@@ -19,10 +20,10 @@ export const useHandleAction = ({queryString, resourceName, selectedAction, sele
      *
      * @return {void}
      */
-    const fireAction = () => {
+    const fireAction = (e, reload = false) => {
         selectedAction?.withoutConfirmation === true
-            ? executeAction()
-            : openConfirmationModal()
+            ? executeAction(reload)
+            : openConfirmationModal(reload)
     }
 
 
@@ -31,8 +32,9 @@ export const useHandleAction = ({queryString, resourceName, selectedAction, sele
      *
      * @return {void}
      */
-    const openConfirmationModal = () => {
+    const openConfirmationModal = (reload = false) => {
         confirmActionModalOpened.value = true
+        reloadOnModalClose.value = reload
     }
 
 
@@ -51,8 +53,7 @@ export const useHandleAction = ({queryString, resourceName, selectedAction, sele
      *
      * @return {void}
      */
-    const executeAction = () => {
-
+    const executeAction = (reload = false) => {
         working.value = true
         Nova.$progress.start()
 
@@ -83,7 +84,11 @@ export const useHandleAction = ({queryString, resourceName, selectedAction, sele
 
                 working.value = false
                 Nova.$progress.done()
-                window.location = window.location.href
+
+                if (reload || reloadOnModalClose.value) {
+                    window.location = window.location.href
+                }
+
             })
             .catch(error => {
 
