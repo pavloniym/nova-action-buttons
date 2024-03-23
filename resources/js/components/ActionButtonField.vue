@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a href="#" :style="finalStyles" :class="finalClasses" :title="name" @click.stop.prevent="fireAction(e, reloadOnComplete)">
+        <a href="#" :style="finalStyles" :class="finalClasses" :title="name" @click.stop.prevent="fireAction(e)">
             <span v-if="text" v-text="text"/>
             <span v-if="icon" v-html="icon"/>
         </a>
@@ -37,7 +37,6 @@
     const customStyles = computed(() => props?.field?.styles || []);
     const customClasses = computed(() => props?.field?.classes || []);
     const asToolbarButton = computed(() => props?.field?.asToolbarButton === true);
-    const reloadOnComplete = computed(() => props?.field?.reloadOnComplete === true);
 
     const actionButtonClasses = computed(() => [
         'flex-shrink-0', 'shadow', 'rounded', 'focus:outline-none', 'ring-primary-200', 'dark:ring-gray-600',

@@ -99,12 +99,4 @@ class ActionButton extends Field
     {
         return $this->withMeta(['asToolbarButton' => true]);
     }
-
-    /**
-     * @return self
-     */
-    public function reloadOnComplete(): self
-    {
-        return $this->withMeta(['reloadOnComplete' => true]);
-    }
 }
