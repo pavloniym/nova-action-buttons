@@ -2,8 +2,8 @@
     <div>
         <a href="#" :style="finalStyles" :class="finalClasses" :title="name" @click.stop.prevent="fireAction(e)">
             <span v-if="text" v-text="text"/>
-            <span v-if="icon && !iconIsUrl" v-html="icon"/>
-            <img v-if="icon && iconIsUrl" :src="icon" class="w-5 h-5"  />
+            <span v-if="icon && !iconIsUrl" v-html="icon" />
+            <img v-if="icon && iconIsUrl" :src="icon" class="w-6 h-6 inline"  />
         </a>
         <component
             v-if="confirmActionModalOpened"
