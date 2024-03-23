@@ -2,7 +2,8 @@
     <div>
         <a href="#" :style="finalStyles" :class="finalClasses" :title="name" @click.stop.prevent="fireAction(e)">
             <span v-if="text" v-text="text"/>
-            <span v-if="icon" v-html="icon"/>
+            <span v-if="icon && !iconIsUrl" v-html="icon"/>
+            <img v-if="icon && iconIsUrl" :src="icon" class="w-5 h-5"  />
         </a>
         <component
             v-if="confirmActionModalOpened"
@@ -33,6 +34,7 @@
     // Computed
     const text = computed(() => props?.field?.text || null);
     const icon = computed(() => props?.field?.icon || null);
+    const iconIsUrl = computed(() => icon?.value?.startsWith('<svg') === false);
     const name = computed(() => props?.field?.name || props?.field?.title || null);
     const customStyles = computed(() => props?.field?.styles || []);
     const customClasses = computed(() => props?.field?.classes || []);
