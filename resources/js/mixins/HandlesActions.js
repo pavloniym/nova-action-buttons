@@ -19,7 +19,7 @@ export const useHandleAction = ({queryString, resourceName, selectedAction, sele
      *
      * @return {void}
      */
-    const fireAction = (e) => {
+    const fireAction = () => {
         selectedAction?.withoutConfirmation === true
             ? executeAction()
             : openConfirmationModal()

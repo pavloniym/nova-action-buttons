@@ -1,6 +1,6 @@
 <template>
     <div>
-        <a href="#" :style="finalStyles" :class="finalClasses" :title="name" @click.stop.prevent="fireAction(e)">
+        <a href="#" :style="finalStyles" :class="finalClasses" :title="name" @click.stop.prevent="fireAction">
             <span v-if="text" v-text="text"/>
             <span v-if="icon && !iconIsUrl" v-html="icon" />
             <img v-if="icon && iconIsUrl" :src="icon" class="w-6 h-6 inline"  />
