@@ -66,7 +66,6 @@ class ActionButton extends Field
         return $this->withMeta(compact('icon'));
     }
 
-
     /**
      * Apply styles to button
      *
@@ -88,7 +87,6 @@ class ActionButton extends Field
     {
         return $this->withMeta(compact('classes'));
     }
-
 
     /**
      * Apply toolbar button styles

@@ -52,7 +52,6 @@ export const useHandleAction = ({queryString, resourceName, selectedAction, sele
      * @return {void}
      */
     const executeAction = () => {
-
         working.value = true
         Nova.$progress.start()
 
@@ -83,6 +82,7 @@ export const useHandleAction = ({queryString, resourceName, selectedAction, sele
 
                 working.value = false
                 Nova.$progress.done()
+
             })
             .catch(error => {
 
