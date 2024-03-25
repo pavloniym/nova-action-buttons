@@ -34,7 +34,7 @@
     // Computed
     const text = computed(() => props?.field?.text || null);
     const icon = computed(() => props?.field?.icon || null);
-    const iconIsUrl = computed(() => icon?.value?.startsWith('<svg') === false);
+    const iconIsUrl = computed(() => icon?.value?.startsWith('http') === true);
     const name = computed(() => props?.field?.name || props?.field?.title || null);
     const customStyles = computed(() => props?.field?.styles || []);
     const customClasses = computed(() => props?.field?.classes || []);
