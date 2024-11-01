@@ -1,6 +1,6 @@
 <template>
     <div class="flex align-center" :class="alignClasses">
-        <template v-for="(action, k) in actions" :key="k">
+        <template v-for="action in actions" :key="action?.key">
             <action-button v-bind="action"/>
         </template>
     </div>
@@ -25,7 +25,8 @@
     const collection = computed(() => props?.field?.collection || []);
     const actions = computed(() => (collection?.value || [])
         .filter((field) => field.action.showOnIndex)
-        .map(field => ({
+        .map((field, i) => ({
+            key: new Date().getTime() + i,
             field: field,
             queryString: props?.queryString,
             resourceName: props?.resourceName,

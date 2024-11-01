@@ -1,26 +1,6 @@
 <template>
     <div class="relative">
-        <a
-            href="#"
-            :style="finalStyles"
-            :class="finalClasses"
-            :title="name"
-            @click.stop.prevent="fireAction"
-            @mouseenter="onMouseEnterTooltip"
-            @mouseleave="onMouseLeaveTooltip"
-        >
-            <span v-if="text" v-text="text"></span>
-            <template v-if="icon">
-                <span v-if="isHtmlIcon" v-html="icon"></span>
-                <Icon v-else :type="icon" />
-            </template>
-        </a>
-        <div
-            v-if="tooltipIsVisible && tooltip"
-            class="absolute z-10 left-1/2 -top-1 transform -translate-x-1/2 -translate-y-full px-2 py-1 bg-gray-700 text-white text-xs rounded"
-        >
-            {{ tooltip }}
-        </div>
+        <action-button v-bind="{field, fireAction}" />
         <component
             v-if="confirmActionModalOpened"
             v-bind="options"
@@ -34,66 +14,23 @@
 
 <script setup>
 
-// Vue
-import {computed, ref} from 'vue'; // Composables
-import {useHandleAction} from '../mixins/HandlesActions' // Props
+    // Components
+    import ActionButton from './_components/button/ActionButton.vue';
 
-// Props
+    // Composables
+    import {computed, ref} from 'vue';
+    import {useHandleAction} from '../mixins/HandlesActions'
+
+    // Props
     const props = defineProps({
         field: {type: Object, default: null},
         queryString: {type: Object, default: null},
         resourceName: {type: String, default: null},
     });
 
-    const tooltipIsVisible = ref(false);
 
     // Computed
-    const text = computed(() => props?.field?.text || null);
-    const icon = computed(() => props?.field?.icon || null);
-    const hasTooltip = computed(() => props?.field?.hasTooltip === true);
-    const tooltip = computed(() => props?.field?.tooltip || props?.field?.action?.name);
-    const name = computed(() => props?.field?.name || props?.field?.title || null);
-    const customStyles = computed(() => props?.field?.styles || []);
-    const customClasses = computed(() => props?.field?.classes || []);
-    const asToolbarButton = computed(() => props?.field?.asToolbarButton === true);
-    const isHtmlIcon = computed(() => icon.value && /<\/?[a-z][\s\S]*>/i.test(icon?.value));
-
-    const actionButtonClasses = computed(() => [
-        'flex-shrink-0', 'shadow', 'rounded', 'focus:outline-none', 'ring-primary-200', 'dark:ring-gray-600',
-        'focus:ring', 'bg-primary-500', 'hover:bg-primary-400', 'active:bg-primary-600',
-        'text-white', 'dark:text-gray-800', 'inline-flex', 'items-center', 'font-bold', 'px-2', 'mx-1', 'h-9', 'text-sm', 'flex-shrink-0',
-    ])
-    const toolbarButtonClasses = computed(() => [
-        'toolbar-button', 'hover:text-primary-500', 'px-2', 'v-popper--has-tooltip', 'w-10'
-    ])
-
-    // Computed
-    // Get action button styles
-    const actionButtonStyles = computed(() => {
-        return {
-            margin: '0 2px',
-        }
-    })
-
-
-    // Computed
-    // Get final styles
-    const finalStyles = computed(() => {
-        return {
-            ...(asToolbarButton?.value === true ? null : actionButtonStyles?.value),
-            ...(customStyles.value || {}),
-        }
-    })
-
-    // Computed
-    // Get final classes
-    const finalClasses = computed(() => {
-        return [
-            ...(asToolbarButton?.value === true ? toolbarButtonClasses.value : actionButtonClasses.value),
-            ...(customClasses.value || [])
-        ]
-    })
-
+    // Get query string options
     const queryString = computed(() => ({
         action: selectedAction?.value?.uriKey,
         search: props?.queryString?.currentSearch,
@@ -104,8 +41,8 @@ import {useHandleAction} from '../mixins/HandlesActions' // Props
         viaRelationship: props?.queryString?.viaRelationship,
     }));
 
+    // Computed
     const selectedAction = computed(() => props?.field?.action);
-
     const selectedResources = computed(() => [props?.field?.resourceId]);
 
     // Bindings
@@ -135,22 +72,4 @@ import {useHandleAction} from '../mixins/HandlesActions' // Props
         selectedResources: selectedResources?.value,
     }))
 
-    const onMouseLeaveTooltip = () => {
-        tooltipIsVisible.value = false;
-    }
-
-    const onMouseEnterTooltip = () => {
-        if (hasTooltip.value) tooltipIsVisible.value = true;
-    }
-
 </script>
-<style scoped>
-
-    .tooltip {
-        @apply invisible absolute;
-    }
-
-    .has-tooltip:hover .tooltip {
-        @apply visible z-50;
-    }
-</style>

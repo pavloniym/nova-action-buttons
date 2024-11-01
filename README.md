@@ -37,7 +37,9 @@ public function fields(Request $request)
         // ... Nova default fields
       
         ActionButton::make('') // Name in resource table column
-            ->icon('<svg></svg>') // Svg icon or heroicon name (optional) ->icon('lightning-bolt')
+            ->icon('lightning-bolt') // heroicon name  ->icon('lightning-bolt')
+            ->iconHtml('<svg></svg>') // Svg (or html) icon
+            ->iconUrl('https://img.com/icon.png') // Url of icon
             ->text('Refresh') // Title (optional)
             ->tooltip('Magic tooltip here') // Tooltip text (optional). If not provided, it will default to the action name.
             ->styles([]) // Custom css styles (optional)

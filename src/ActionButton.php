@@ -68,6 +68,29 @@ class ActionButton extends Field
 
 
     /**
+     * Icon url inside the button.
+     *
+     * @param string $iconUrl
+     * @return $this
+     */
+    public function iconUrl(string $iconUrl): self
+    {
+        return $this->withMeta(compact('iconUrl'));
+    }
+
+    /**
+     * Icon html inside the button.
+     *
+     * @param string $iconHtml
+     * @return $this
+     */
+    public function iconHtml(string $iconHtml): self
+    {
+        return $this->withMeta(compact('iconHtml'));
+    }
+
+
+    /**
      * Apply styles to button
      *
      * @param array $styles

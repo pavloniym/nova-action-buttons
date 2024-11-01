@@ -1,12 +1,7 @@
 <template>
     <panel-item :field="field">
         <template v-slot:value>
-            <a href="#" :style="finalStyles" :class="finalClasses" :title="name" @click.stop.prevent="fireAction">
-                <span v-if="text" v-text="text"/>
-                <span v-if="icon" v-html="icon"/>
-            </a>
-
-            <!-- Action Confirmation Modal -->
+            <action-button v-bind="{field, fireAction}"/>
             <portal to="modals" transition="fade-transition">
                 <component
                     v-if="confirmActionModalOpened"
@@ -23,8 +18,12 @@
 
 <script setup>
 
-    // Vue
+    // Components
+    import ActionButton from './_components/button/ActionButton.vue';
+
+    // Composables
     import {computed} from 'vue';
+    import {useHandleAction} from '../mixins/HandlesActions'
 
     // Props
     const props = defineProps({
@@ -32,29 +31,6 @@
         queryString: {type: Object, default: null},
         resourceName: {type: String, default: null},
     });
-
-    // Composables
-    import {useHandleAction} from '../mixins/HandlesActions'
-
-    // Computed
-    const text = computed(() => props?.field?.text || null);
-    const icon = computed(() => props?.field?.icon || null);
-    const name = computed(() => props?.field?.name || null);
-    const customStyles = computed(() => props?.field?.styles || []);
-    const customClasses = computed(() => props?.field?.classes || []);
-    const asToolbarButton = computed(() => props?.field?.asToolbarButton === true);
-
-    const actionButtonClasses = computed(() => [
-        'flex-shrink-0', 'shadow', 'rounded', 'focus:outline-none', 'ring-primary-200', 'dark:ring-gray-600',
-        'focus:ring', 'bg-primary-500', 'hover:bg-primary-400', 'active:bg-primary-600',
-        'text-white', 'dark:text-gray-800', 'inline-flex', 'items-center', 'font-bold', 'px-2', 'h-9', 'text-sm', 'flex-shrink-0',
-    ])
-    const toolbarButtonClasses = computed(() => [
-        'toolbar-button', 'hover:text-primary-500', 'px-2', 'v-popper--has-tooltip', 'w-10'
-    ])
-
-    const finalStyles = computed(() => ({...(customStyles.value || {})}))
-    const finalClasses = computed(() => [...(asToolbarButton?.value === true ? toolbarButtonClasses.value : actionButtonClasses.value), ...(customClasses.value || [])])
 
     const queryString = computed(() => ({
         action: selectedAction?.value?.uriKey,
@@ -67,7 +43,6 @@
     }));
 
     const selectedAction = computed(() => props?.field?.action);
-
     const selectedResources = computed(() => [props?.field?.resourceId]);
 
     // Bindings
