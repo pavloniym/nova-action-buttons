@@ -18,7 +18,7 @@
     import ActionButton from './_components/button/ActionButton.vue';
 
     // Composables
-    import {computed, ref} from 'vue';
+    import {computed} from 'vue';
     import {useHandleAction} from '../mixins/HandlesActions'
 
     // Props

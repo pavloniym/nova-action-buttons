@@ -27,7 +27,7 @@
 <script setup>
 
     // Composables
-    import {computed} from 'vue'
+    import {computed, ref} from 'vue';
 
     // Props
     const props = defineProps({
