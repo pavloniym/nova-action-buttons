@@ -55,6 +55,8 @@
         confirmActionModalOpened
     } = useHandleAction(
         {
+            isOnDetail: true,
+            resourceId: props?.field?.resourceId,
             queryString: queryString.value,
             resourceName: props?.resourceName,
             selectedAction: selectedAction.value,

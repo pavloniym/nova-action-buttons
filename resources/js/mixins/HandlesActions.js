@@ -5,7 +5,7 @@ import isNil from 'lodash/isNil'
 import {ref} from "vue";
 import {Errors} from 'form-backend-validation'
 
-export const useHandleAction = ({queryString, resourceName, selectedAction, selectedResources}) => {
+export const useHandleAction = ({queryString, resourceId, resourceName, selectedAction, selectedResources, isOnDetail = false}) => {
 
     // State
     const errors = ref(new Errors());
@@ -138,9 +138,8 @@ export const useHandleAction = ({queryString, resourceName, selectedAction, sele
         Nova.$emit('action-executed')
         Nova.$emit('refresh-resources')
 
-        if (typeof callback === 'function') {
-            callback()
-        }
+        if (typeof callback === 'function') callback()
+        if (isOnDetail) Nova.visit(`/resources/${resourceName}/${resourceId}`)
     }
 
 

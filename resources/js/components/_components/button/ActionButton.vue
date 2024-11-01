@@ -1,5 +1,6 @@
 <template>
     <a href="#"
+       class="d-flex align-center"
        v-bind="actionOptions"
        @click.stop.prevent="fireAction"
        @mouseenter="onMouseEnterTooltip"
@@ -7,14 +8,14 @@
     >
 
         <!-- Text -->
-        <span v-if="text" v-text="text"></span>
+        <div v-if="text" v-text="text"></div>
 
         <!-- Icon -->
-        <template v-if="hasIcon">
-            <span v-if="htmlIcon" v-html="htmlIcon"></span>
+        <div v-if="hasIcon" :class="{'ml-2': text}">
             <Icon v-if="icon" :type="icon" />
-            <img v-if="urlIcon" :alt="title" :src="urlIcon" class="w-6 h-6 inline" />
-        </template>
+            <span v-if="iconHtml" v-html="iconHtml"></span>
+            <img v-if="iconUrl" :alt="title" :src="iconUrl" class="w-6 h-6 inline" />
+        </div>
 
         <!-- Tooltip -->
         <div v-if="tooltipIsVisible && tooltip" class="absolute z-10 left-1/2 -top-1 transform -translate-x-1/2 -translate-y-full px-2 py-1 bg-gray-700 text-white text-xs rounded">
@@ -52,11 +53,11 @@
     // Computed
     // Icon
     const icon = computed(() => props?.field?.icon || null);
-    const urlIcon = computed(() => props?.field?.urlIcon || null);
-    const htmlIcon = computed(() => props?.field?.htmlIcon || null);
+    const iconUrl = computed(() => props?.field?.iconUrl || null);
+    const iconHtml = computed(() => props?.field?.iconHtml || null);
 
     // Computed
-    const hasIcon = computed(() => icon?.value !== null || htmlIcon?.value !== null || urlIcon?.value !== null);
+    const hasIcon = computed(() => icon?.value !== null || iconHtml?.value !== null || iconUrl?.value !== null);
     const hasTooltip = computed(() => props?.field?.hasTooltip === true);
 
 
