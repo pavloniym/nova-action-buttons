@@ -99,4 +99,15 @@ class ActionButton extends Field
     {
         return $this->withMeta(['asToolbarButton' => true]);
     }
+
+    /**
+     * Tooltip text
+     *
+     * @param string|null $tooltip
+     * @return $this
+     */
+    public function tooltip(string $tooltip = null): self
+    {
+        return $this->withMeta(['hasTooltip' => true, 'tooltip' => $tooltip]);
+    }
 }
