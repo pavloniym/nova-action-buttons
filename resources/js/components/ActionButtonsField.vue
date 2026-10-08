@@ -1,8 +1,13 @@
 <template>
-    <div class="flex align-center" :class="alignClasses">
-        <template v-for="action in actions" :key="action?.key">
-            <action-button v-bind="action"/>
-        </template>
+    <div class="nab-buttons" :class="alignClass">
+        <action-button-runner
+            v-for="(button, i) in buttons"
+            :key="buttonKey(button, i)"
+            :field="button"
+            :resource-name="resourceName"
+            :via-resource="viaResource"
+            :via-resource-id="viaResourceId"
+        />
     </div>
 </template>
 
@@ -12,35 +17,21 @@
     import {computed} from 'vue';
 
     // Components
-    import ActionButton from './ActionButtonField'
+    import ActionButtonRunner from './_components/ActionButtonRunner.vue';
 
     // Props
     const props = defineProps({
-        field: {type: Object, default: null},
-        queryString: {type: Object, default: null},
-        resourceName: {type: String, default: null},
+        field: {type: Object, required: true},
+        resourceName: {type: String, required: true},
+        viaResource: {type: String, default: null},
+        viaResourceId: {type: [String, Number], default: null},
     });
 
     // Computed
-    const collection = computed(() => props?.field?.collection || []);
-    const actions = computed(() => (collection?.value || [])
-        .filter((field) => field.action.showOnIndex)
-        .map((field, i) => ({
-            key: new Date().getTime() + i,
-            field: field,
-            queryString: props?.queryString,
-            resourceName: props?.resourceName,
-        })))
+    const buttons = computed(() => (props.field?.collection || []).filter(button => button?.action?.showOnIndex !== false));
+    const alignClass = computed(() => `nab-buttons--${props.field?.textAlign || 'center'}`);
 
-
-    // Computed
-    // Align classes
-    const alignClasses = computed(() => {
-        return {
-            'justify-end': props?.field?.textAlign === 'right',
-            'justify-start': props?.field?.textAlign === 'left',
-            'justify-center': props?.field?.textAlign === 'center',
-        }
-    })
+    // Methods
+    const buttonKey = (button, i) => `${i}-${button?.action?.uriKey}-${button?.resourceId}`;
 
 </script>

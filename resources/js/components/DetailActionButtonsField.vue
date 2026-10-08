@@ -1,38 +1,38 @@
 <template>
-    <panel-item :field="field">
-        <template v-slot:value>
-            <div class="flex items-center ">
-                <template v-for="action in actions" :key="action?.key">
-                    <action-button v-bind="action"/>
-                </template>
+    <PanelItem :index="index" :field="field">
+        <template #value>
+            <div class="nab-buttons nab-buttons--left">
+                <action-button-runner
+                    v-for="(button, i) in buttons"
+                    :key="buttonKey(button, i)"
+                    :field="button"
+                    :resource-name="resourceName"
+                    is-on-detail
+                />
             </div>
         </template>
-    </panel-item>
+    </PanelItem>
 </template>
 
 <script setup>
-// Vue
+
+    // Vue
     import {computed} from 'vue';
 
     // Components
-    import ActionButton from './ActionButtonField';
+    import ActionButtonRunner from './_components/ActionButtonRunner.vue';
 
     // Props
     const props = defineProps({
-        field: {type: Object, default: null},
-        queryString: {type: Object, default: null},
-        resourceName: {type: String, default: null},
+        index: {type: Number, default: 0},
+        field: {type: Object, required: true},
+        resourceName: {type: String, required: true},
     });
 
     // Computed
-    const collection = computed(() => props?.field?.collection || []);
-    const actions = computed(() => (collection?.value || [])
-        .filter((field) => field.action.showOnDetail)
-        .map((field, i) => ({
-            key: new Date().getTime() + i,
-            field: field,
-            queryString: props?.queryString,
-            resourceName: props?.resourceName,
-        })));
+    const buttons = computed(() => (props.field?.collection || []).filter(button => button?.action?.showOnDetail !== false));
+
+    // Methods
+    const buttonKey = (button, i) => `${i}-${button?.action?.uriKey}-${button?.resourceId}`;
 
 </script>
