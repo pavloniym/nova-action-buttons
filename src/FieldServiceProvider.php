@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pavloniym\ActionButtons;
 
 use Illuminate\Support\ServiceProvider;
@@ -10,24 +12,12 @@ class FieldServiceProvider extends ServiceProvider
 {
     /**
      * Bootstrap any application services.
-     *
-     * @return void
      */
-    public function boot()
+    public function boot(): void
     {
-        Nova::serving(function (ServingNova $event) {
+        Nova::serving(function (ServingNova $event): void {
             Nova::script('action-buttons', __DIR__.'/../dist/js/field.js');
             Nova::style('action-buttons', __DIR__.'/../dist/css/field.css');
         });
-    }
-
-    /**
-     * Register any application services.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
     }
 }

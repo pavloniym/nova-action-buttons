@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Pavloniym\ActionButtons;
 
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\Field;
+use Pavloniym\ActionButtons\Support\IconMeta;
 
 class ActionButton extends Field
 {
@@ -14,14 +17,12 @@ class ActionButton extends Field
      */
     public $component = 'action-button';
 
-
     /**
      * Indicates if the element should be shown on the update view.
      *
      * @var bool
      */
     public $showOnUpdate = false;
-
 
     /**
      * Indicates if the element should be shown on the creation view.
@@ -31,11 +32,10 @@ class ActionButton extends Field
     public $showOnCreation = false;
 
     /**
-     * @param Action $action
-     * @param mixed $resourceId
-     * @return $this
+     * Action to run and the resource it runs on.
+     * The action must also be registered in the resource's actions() method.
      */
-    public function action(Action $action, mixed $resourceId): self
+    public function action(Action $action, mixed $resourceId): static
     {
         return $this->withMeta([
             'action' => $action,
@@ -45,91 +45,70 @@ class ActionButton extends Field
 
     /**
      * Text inside button.
-     *
-     * @param string $text
-     * @return $this
      */
-    public function text(string $text): self
+    public function text(string $text): static
     {
-        return $this->withMeta(compact('text'));
+        return $this->withMeta(['text' => $text]);
     }
-
 
     /**
-     * Icon inside the button.
-     *
-     * @param string $icon
-     * @return $this
+     * Heroicons v2 icon inside the button, e.g. icon('bolt') or icon('bolt', 'solid').
+     * Heroicons v1 names (e.g. "lightning-bolt") are mapped to v2 by Nova; raw SVG markup is rendered as iconHtml().
      */
-    public function icon(string $icon): self
+    public function icon(string $icon, IconType|string $type = IconType::Outline): static
     {
-        return $this->withMeta(compact('icon'));
+        return $this->withMeta(IconMeta::make($icon, $type));
     }
-
 
     /**
      * Icon url inside the button.
-     *
-     * @param string $iconUrl
-     * @return $this
      */
-    public function iconUrl(string $iconUrl): self
+    public function iconUrl(string $iconUrl): static
     {
-        return $this->withMeta(compact('iconUrl'));
+        return $this->withMeta(['iconUrl' => $iconUrl]);
     }
 
     /**
-     * Icon html inside the button.
-     *
-     * @param string $iconHtml
-     * @return $this
+     * Icon html (e.g. inline SVG) inside the button.
      */
-    public function iconHtml(string $iconHtml): self
+    public function iconHtml(string $iconHtml): static
     {
-        return $this->withMeta(compact('iconHtml'));
-    }
-
-
-    /**
-     * Apply styles to button
-     *
-     * @param array $styles
-     * @return $this
-     */
-    public function styles(array $styles = []): self
-    {
-        return $this->withMeta(compact('styles'));
+        return $this->withMeta(['iconHtml' => $iconHtml]);
     }
 
     /**
-     * Apply classes to button
+     * Inline css styles, merged over the default look.
      *
-     * @param array $classes
-     * @return $this
+     * @param array<string, string> $styles
      */
-    public function classes(array $classes = []): self
+    public function styles(array $styles = []): static
     {
-        return $this->withMeta(compact('classes'));
+        return $this->withMeta(['styles' => $styles]);
     }
 
+    /**
+     * Css classes that replace the default look of the button.
+     *
+     * @param array<int, string> $classes
+     */
+    public function classes(array $classes = []): static
+    {
+        return $this->withMeta(['classes' => array_values($classes)]);
+    }
 
     /**
-     * Apply toolbar button styles
-     *
-     * @return $this
+     * Look like Nova's icon buttons in a table row (view / edit / delete).
+     * This only changes the style: the button stays in the field's column.
      */
-    public function asToolbarButton(): self
+    public function asToolbarButton(): static
     {
         return $this->withMeta(['asToolbarButton' => true]);
     }
 
     /**
-     * Tooltip text
-     *
-     * @param string|null $tooltip
-     * @return $this
+     * Show a tooltip on hover; defaults to the action name.
      */
-    public function tooltip(string $tooltip = null): self
+    public function tooltip(?string $tooltip = null): static
     {
         return $this->withMeta(['hasTooltip' => true, 'tooltip' => $tooltip]);
     }
