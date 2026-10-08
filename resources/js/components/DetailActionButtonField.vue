@@ -1,77 +1,21 @@
 <template>
-    <panel-item :field="field">
-        <template v-slot:value>
-            <action-button v-bind="{field, fireAction}"/>
-            <portal to="modals" transition="fade-transition">
-                <component
-                    v-if="confirmActionModalOpened"
-                    v-bind="options"
-                    class="text-left"
-                    :is="selectedAction.component"
-                    @close="closeConfirmationModal"
-                    @confirm="executeAction">
-                </component>
-            </portal>
+    <PanelItem v-if="field.action?.showOnDetail !== false" :index="index" :field="field">
+        <template #value>
+            <action-button-runner :field="field" :resource-name="resourceName" is-on-detail />
         </template>
-    </panel-item>
+    </PanelItem>
 </template>
 
 <script setup>
 
     // Components
-    import ActionButton from './_components/button/ActionButton.vue';
-
-    // Composables
-    import {computed} from 'vue';
-    import {useHandleAction} from '../mixins/HandlesActions'
+    import ActionButtonRunner from './_components/ActionButtonRunner.vue';
 
     // Props
-    const props = defineProps({
-        field: {type: Object, default: null},
-        queryString: {type: Object, default: null},
-        resourceName: {type: String, default: null},
+    defineProps({
+        index: {type: Number, default: 0},
+        field: {type: Object, required: true},
+        resourceName: {type: String, required: true},
     });
-
-    const queryString = computed(() => ({
-        action: selectedAction?.value?.uriKey,
-        search: props?.queryString?.currentSearch,
-        filters: props?.queryString?.encodedFilters,
-        trashed: props?.queryString?.currentTrashed,
-        viaResource: props?.queryString?.viaResource,
-        viaResourceId: props?.queryString?.viaResourceId,
-        viaRelationship: props?.queryString?.viaRelationship,
-    }));
-
-    const selectedAction = computed(() => props?.field?.action);
-    const selectedResources = computed(() => [props?.field?.resourceId]);
-
-    // Bindings
-    const {
-        errors,
-        working,
-        fireAction,
-        executeAction,
-        closeConfirmationModal,
-        confirmActionModalOpened
-    } = useHandleAction(
-        {
-            isOnDetail: true,
-            resourceId: props?.field?.resourceId,
-            queryString: queryString.value,
-            resourceName: props?.resourceName,
-            selectedAction: selectedAction.value,
-            selectedResources: selectedResources.value,
-        }
-    )
-
-    // Computed
-    const options = computed(() => ({
-        show: true,
-        errors: errors?.value,
-        action: selectedAction?.value,
-        working: working?.value === true,
-        resourceName: props?.resourceName,
-        selectedResources: selectedResources?.value,
-    }))
 
 </script>
