@@ -1,0 +1,34 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  phpunit:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: ['8.1', '8.2', '8.3', '8.4']
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: shivammathur/setup-php@v2
+        with:
+          php: ${{ matrix.php }}
+          coverage: none
+
+      # Laravel Nova is a paid package and cannot be installed here; the tests that need it are skipped.
+      - name: Drop Nova dependencies
+        run: |
+          composer remove laravel/nova --no-update --no-interaction
+          composer remove --dev laravel/nova-devtool --no-update --no-interaction
+          composer config --unset repositories.0
+
+      - name: Install dependencies
+        run: composer update --no-interaction --prefer-dist --no-progress
+
+      - name: Run tests
+        run: vendor/bin/phpunit
