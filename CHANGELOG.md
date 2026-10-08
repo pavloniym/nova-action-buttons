@@ -3,6 +3,10 @@
 All notable changes to this project are documented in this file.
 The project follows [Semantic Versioning](https://semver.org).
 
+## [2.0.1] - 2026-10-09
+
+No code changes: same files as 2.0.0, released from the cleaned-up `main` history.
+
 ## [2.0.0] - 2026-10-09
 
 Laravel Nova 5 support. Nova 4 projects should stay on `^1.1`.
